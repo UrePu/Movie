@@ -10,26 +10,13 @@ const options = {
   },
 };
 
+//url
 const popularUrl =
   'https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=1';
-
 const nowShowingUrl =
   'https://api.themoviedb.org/3/movie/now_playing?language=ko-KR&page=1';
 
-//영화 데이터 가져오기
-// const getMovies = async function () {
-//   try {
-//     //fetch
-//     const popularResponse = await fetch(popularUrl, options);
-//     const popularJson = await popularResponse.json();
-//     const popularData = await popularJson.results;
-
-//     return popularData;
-//   } catch (err) {
-//     console.error('error data', error);
-//   }
-// };
-
+//영화 정보 가져오기
 const getMovies = async function (url) {
   try {
     //fetch
