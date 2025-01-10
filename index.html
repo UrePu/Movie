@@ -11,34 +11,36 @@
     <header>
       <div id="header_wrap">
         <div id="logo">MOVIE</div>
-        <input type="text" id="search_input" />
-        <button type="button" id="submit_search" class="header_btn">
-          검색
-        </button>
+        <!-- ---SEARCH--- -->
+        <form id="search">
+          <input
+            type="text"
+            id="search_input"
+            placeholder="영화 제목을 검색해보세요!"
+          />
+          <button type="button" id="searchBtn" class="header_btn">검색</button>
+        </form>
         <button type="button" id="bookmark" class="header_btn">북마크</button>
       </div>
     </header>
 
     <main>
+      <!-- ---MOVIE LIST--- -->
       <h1>POPULAR</h1>
-      <div id="movie_card_wrap">
-        <div class="movie_card" style="display: none"></div>
-      </div>
+      <ul id="movie_card_wrap">
+        <li class="movie_card" style="display: none"></li>
+      </ul>
 
+      <!-- ---MODAL--- -->
       <div id="modal_wrap">
         <div id="modal">
           <button id="modal_btn">ｘ</button>
           <div class="modal_img"></div>
           <div class="modal_text_wrap">
-            <h3 class="modal_title">제목</h3>
-            <p class="modal_info">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Voluptate quam at doloribus repudiandae. Magni dolore vero magnam,
-              unde laboriosam neque labore quae omnis explicabo enim non
-              delectus totam nobis exercitationem?
-            </p>
-            <p class="modal_day">개봉일</p>
-            <p class="modal_star">⭐️</p>
+            <h3 class="modal_title"></h3>
+            <p class="modal_info"></p>
+            <p class="modal_day">개봉일 :</p>
+            <p class="modal_star"></p>
           </div>
         </div>
       </div>

@@ -18,15 +18,15 @@ li {
 
 body {
   width: 100vw;
-  height: 100vh;
   color: #333;
+  background: #000;
 }
 
 /* header */
 header {
   position: relative;
   width: 100%;
-  height: 100vh;
+  height: 100px;
   border-bottom: 1px solid #fff;
 
   #header_wrap {
@@ -143,12 +143,13 @@ main {
 
 /* modal */
 #modal_wrap {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   background: rgba(0, 0, 0, 0.7);
+  display: none;
 
   #modal {
     position: relative;
@@ -189,6 +190,30 @@ main {
       height: 100%;
       display: flex;
       flex-direction: column;
+      justify-content: center;
+
+      .modal_title {
+        display: inline-block;
+        width: 100%;
+        height: 50px;
+        font-size: 25px;
+        line-height: 50px;
+        border-bottom: 1px solid #333;
+      }
+
+      .modal_info {
+        width: 100%;
+        font-size: 17px;
+        margin: 10px 0;
+      }
+
+      .modal_day {
+        font-size: 17px;
+      }
     }
   }
+}
+
+#modal_wrap.activeModal {
+  display: block;
 }
