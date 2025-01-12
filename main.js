@@ -11,6 +11,10 @@ const options = {
 };
 
 //---DOM ELEMENTS---
+//url 관련 변수
+let pageNum = 1;
+//홈화면 변수
+const homeLogo = document.querySelector('#home_logo');
 //검색창 변수
 const searchInput = document.querySelector('#search_input');
 const searchBtn = document.querySelector('#searchBtn');
@@ -48,7 +52,7 @@ const fetchMovies = async function (url) {
 
 //---INIT---
 // 초기 렌더링 및 검색 기능 실행
-(async function (urlDetail, pageNum) {
+const init = (async function (urlDetail, pageNum) {
   if (!urlDetail) urlDetail = 'popular';
   if (!pageNum) pageNum = 1;
 
@@ -56,7 +60,38 @@ const fetchMovies = async function (url) {
 
   const movieData = await fetchMovies(url);
   renderMovie(movieData); // 영화 렌더링
+
+  //popular 활성화
+  popular.classList.add('activeNavi');
 })();
+
+//---HOME + NAVI---
+//---HOME---
+//홈화면 돌아오기
+
+//---NAVI---
+//navi 누르면 해당 영화목록 렌더링
+//네비 변수
+const naviLis = document.querySelectorAll('#navi > li');
+
+naviLis.forEach(async function (naviLi) {
+  naviLi.addEventListener('click', async function () {
+    //기존 활성화된 active 제거
+    naviLis.forEach(function (li) {
+      li.classList.remove('activeNavi');
+    });
+
+    //li 클릭시 active 부여
+    if (!naviLi.classList.contains('activeNavi')) {
+      naviLi.classList.add('activeNavi');
+    }
+
+    //해당 url로 설정해서 데이터 fetch하는 로직
+    let naviUrl = `https://api.themoviedb.org/3/movie/${naviLi.id}?language=ko-KR&page=${pageNum}`;
+    const naviData = await fetchMovies(naviUrl);
+    renderMovie(naviData);
+  });
+});
 
 //---RENDER + SEARCH---
 //---RENDER---
@@ -132,7 +167,6 @@ const searchMovie = async function (searchValue) {
 
   if (searchValue) {
     let encodedText = encodeURIComponent(searchValue);
-    console.log(encodedText);
     searchUrl = `https://api.themoviedb.org/3/search/movie?query=${encodedText}&include_adult=false&language=ko-KR&page=1`;
   }
 
@@ -155,6 +189,7 @@ const activeModal = function (movieCard) {
 
   if (!posterImg || !title || !info || !releaseDate || !star) {
     console.error('Missing data for modal!');
+    alert('아직 해당 영화의 정보가 업로드 되지 않았습니다!');
     return;
   }
 

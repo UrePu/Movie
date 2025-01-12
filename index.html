@@ -8,9 +8,11 @@
     <script defer src="./main.js"></script>
   </head>
   <body>
-    <header>
-      <div id="header_wrap">
-        <div id="logo">MOVIE</div>
+    <header></header>
+
+    <main>
+      <div id="search_wrap">
+        <div id="home_logo">MOVIE</div>
         <!-- ---SEARCH--- -->
         <form id="search">
           <input
@@ -22,11 +24,18 @@
         </form>
         <button type="button" id="bookmark" class="header_btn">북마크</button>
       </div>
-    </header>
-
-    <main>
+      <!-- ---NAVI LIST--- -->
+      <div id="nav_wrap">
+        <nav>
+          <ul id="navi">
+            <li id="popular">POPULAR</li>
+            <li id="now_playing">NOW PLAYING</li>
+            <li id="top_rated">TOP RATED</li>
+            <li id="upcoming">UP COMING</li>
+          </ul>
+        </nav>
+      </div>
       <!-- ---MOVIE LIST--- -->
-      <h1>POPULAR</h1>
       <ul id="movie_card_wrap">
         <li class="movie_card" style="display: none"></li>
       </ul>
