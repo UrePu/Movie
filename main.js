@@ -21,7 +21,7 @@ const searchBtn = document.querySelector('#searchBtn');
 
 //모달창 변수
 const modalLayer = document.querySelector('#modal_wrap');
-const modalImg = document.querySelector('.modal_img');
+const modal = document.querySelector('#modal');
 const modalTitle = document.querySelector('.modal_title');
 const modalInfo = document.querySelector('.modal_info');
 const modalDay = document.querySelector('.modal_day');
@@ -107,6 +107,8 @@ const renderMovie = function (data) {
     const rate = movie.vote_average;
     const info = movie.overview;
     const releaseDate = movie.release_date;
+    const bgImg = movie.backdrop_path;
+
     // 별점 계산
     const count = Math.floor(rate / 2) + (rate % 2 !== 0 ? 1 : 0);
     const star = '⭐️'.repeat(count);
@@ -121,6 +123,8 @@ const renderMovie = function (data) {
     movieCard.setAttribute('data-info', info);
     movieCard.setAttribute('data-release', releaseDate);
     movieCard.setAttribute('data-star', star);
+    movieCard.setAttribute('data-image', bgImg);
+
     // 영화 카드에 내용 넣기
     movieCard.innerHTML = `
       <img src='https://image.tmdb.org/t/p/w500${posterImg}' alt='${title} image'>
@@ -186,6 +190,7 @@ const activeModal = function (movieCard) {
   const info = movieCard.getAttribute('data-info');
   const releaseDate = movieCard.getAttribute('data-release');
   const star = movieCard.getAttribute('data-star');
+  const bgImg = movieCard.getAttribute('data-image');
 
   if (!posterImg || !title || !info || !releaseDate || !star) {
     console.error('Missing data for modal!');
@@ -194,7 +199,7 @@ const activeModal = function (movieCard) {
   }
 
   //모달창에 데이터 반영
-  modalImg.style.backgroundImage = `url(https://image.tmdb.org/t/p/w500${posterImg})`;
+  modal.style.backgroundImage = `url(https://image.tmdb.org/t/p/w500${bgImg})`;
   modalTitle.innerText = title;
   modalInfo.innerText = info;
   modalDay.innerText = releaseDate;
