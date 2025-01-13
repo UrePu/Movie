@@ -58,9 +58,15 @@ main {
       font-size: 30px;
       text-align: center;
       line-height: 50px;
-      color: #fff;
+      color: #ffbf10;
       cursor: pointer;
       font-weight: bold;
+      transition: color 0.3s;
+      transform: skewX(-15deg);
+
+      &:hover {
+        color: #fff;
+      }
     }
 
     #search_input {
@@ -222,7 +228,7 @@ main {
     justify-content: space-around;
     background-repeat: no-repeat;
     background-size: cover;
-    filter: blur(5px);
+    /* filter: blur(5px); */
   }
 
   .modal_text_wrap {
