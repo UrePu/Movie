@@ -1,5 +1,9 @@
 @charset "utf-8";
 
+/* font */
+/* pretendard */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
+
 /* reset */
 * {
   margin: 0;
@@ -28,7 +32,81 @@ body {
 header {
   width: 100%;
   height: calc(100vh - 100px);
-  background: #bbbbbb;
+  background: #000;
+
+  #imgslide_wrap {
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+
+    #loading_title {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) skew(-15deg);
+      color: #ffbf10;
+      font-size: 50px;
+    }
+
+    .random_title {
+      position: absolute;
+      bottom: 370px;
+      left: 100px;
+      font-size: 70px;
+      color: #fff;
+      text-shadow: #555 1px 0 10px;
+      opacity: 0;
+      z-index: 2;
+      font-weight: 600;
+    }
+
+    #button_wrap {
+      display: flex;
+      gap: 15px;
+      position: absolute;
+      bottom: 300px;
+      left: 100px;
+      opacity: 0;
+
+      #play_btn {
+        width: 120px;
+        height: 50px;
+        background: #ffbf10;
+        color: #fff;
+        font-size: 15px;
+        border: none;
+        border-radius: 20px;
+        box-shadow: 1px 1px 10px #555;
+        transition: all 0.3s;
+
+        &:hover {
+          background: #fff;
+          color: #ffbf10;
+        }
+      }
+
+      #info_btn {
+        width: 150px;
+        height: 50px;
+        background: #fff;
+        color: #ffbf10;
+        font-size: 15px;
+        border: none;
+        border-radius: 20px;
+        opacity: 0.9;
+        box-shadow: 1px 1px 10px #555;
+        transition: all 0.3s;
+
+        &:hover {
+          background: #ffbf10;
+          color: #fff;
+          opacity: 1;
+        }
+      }
+    }
+  }
 }
 
 /* main */
@@ -102,15 +180,25 @@ main {
   /* navi */
   #nav_wrap {
     width: 100%;
-    height: 100px;
+    height: 50px;
     padding: 30px;
+    position: sticky;
+    top: 100px;
+    z-index: 51;
+    background: rgba(0, 0, 0, 0.7);
     border-bottom: 1px solid #fff;
+    display: flex;
+    align-items: center;
 
     nav {
-      width: 100%;
-      height: 100%;
+      width: 95%;
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
 
       #navi {
+        width: 100%;
         display: flex;
         justify-content: space-around;
         align-items: center;
@@ -120,9 +208,9 @@ main {
           font-size: 20px;
           font-weight: 600;
           width: 200px;
-          height: 50px;
+          height: 30px;
           text-align: center;
-          line-height: 50px;
+          line-height: 30px;
           cursor: pointer;
           transition: transform 0.3s, color 0.3s;
 
@@ -144,16 +232,14 @@ main {
     width: 100%;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-rows: repeat(auto-fill, minmax(400px 1fr));
     gap: 20px;
     padding: 20px;
 
     .movie_card {
-      background: #fff;
-      padding: 20px;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      box-shadow: 1px 1px 15px #bbbbbb;
       cursor: pointer;
       transition: transform 0.3s;
 
@@ -162,22 +248,8 @@ main {
       }
 
       img {
-        height: 450px;
-        object-fit: fill;
-      }
-
-      h3 {
-        width: 100%;
-        font-size: 20px;
-        text-align: center;
-        margin-top: 10px;
-        font-weight: 400;
-      }
-
-      p {
-        width: 100%;
-        font-size: 17px;
-        text-align: center;
+        height: 100%;
+        object-fit: cover;
       }
     }
   }
@@ -198,6 +270,7 @@ main {
     cursor: pointer;
     border-top: 1px solid #fff;
     transition: color 0.3s;
+    margin-bottom: 50px;
 
     &:hover {
       color: #ffbf10;
@@ -212,7 +285,7 @@ main {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.5);
   display: none;
   z-index: 51;
 
@@ -228,13 +301,12 @@ main {
     justify-content: space-around;
     background-repeat: no-repeat;
     background-size: cover;
-    /* filter: blur(5px); */
   }
 
   .modal_text_wrap {
     width: 1100px;
     height: 700px;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.4);
     position: relative;
     top: 50%;
     left: 50%;
@@ -244,19 +316,43 @@ main {
     color: #fff;
     display: flex;
 
-    #modal_btn {
+    .modal_btn {
       color: #fff;
       position: absolute;
-      top: 30px;
-      right: 30px;
       background: none;
       border: none;
-      font-size: 50px;
       cursor: pointer;
-      transition: color 0.3s;
+      opacity: 0.5;
+      width: 40px;
+      height: 40px;
+    }
+
+    #close_btn {
+      top: 50px;
+      right: 30px;
+      background-image: url(./images/close_white.png);
+      background-size: cover;
+      transition: all 0.3s;
 
       &:hover {
-        color: #ffbf10;
+        background-image: url(./images/close_yellow.png);
+        background-size: cover;
+        opacity: 1;
+      }
+    }
+
+    #bookmark_btn {
+      top: 50px;
+      right: 80px;
+      background-image: url(./images/bookmark_white.png);
+      background-size: cover;
+      transform: scale(0.95);
+      transition: all 0.3s;
+
+      &:hover {
+        background-image: url(./images/fullheart_yellow.png);
+        background-size: cover;
+        opacity: 1;
       }
     }
 
@@ -274,8 +370,8 @@ main {
       position: absolute;
       top: 380px;
       left: 80px;
-      width: 85%;
-      font-size: 17px;
+      width: 500px;
+      font-size: 15px;
       border-top: 1px solid #fff;
       padding-top: 30px;
       margin: 10px 0;
@@ -293,10 +389,18 @@ main {
       top: 610px;
       left: 80px;
       font-size: 30px;
+      color: #ffbf10;
     }
   }
 }
 
 #modal_wrap.activeModal {
   display: block;
+}
+
+/* footer */
+footer {
+  width: 100%;
+  height: 200px;
+  border-top: 1px solid #fff;
 }

@@ -24,6 +24,7 @@ const moreBtn = document.querySelector('#more_btn');
 //검색창 변수
 const searchInput = document.querySelector('#search_input');
 const searchBtn = document.querySelector('#searchBtn');
+const headerHeight = document.querySelector('header').offsetHeight;
 //모달창 변수
 const modalLayer = document.querySelector('#modal_wrap');
 const modal = document.querySelector('#modal');
@@ -31,7 +32,7 @@ const modalTitle = document.querySelector('.modal_title');
 const modalInfo = document.querySelector('.modal_info');
 const modalDay = document.querySelector('.modal_day');
 const modalStar = document.querySelector('.modal_star');
-const modalBtn = document.querySelector('#modal_btn');
+const modalBtn = document.querySelector('#close_btn');
 
 //---URL---
 // const popularUrl =
@@ -77,12 +78,105 @@ const init = async function (urlDetail, pageNum) {
   popular.classList.add('activeNavi');
 
   //화면 상단으로 올리기
-  window.scrollTo(0, 0);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
   //검색창 리셋
   searchInput.value = '';
+  //더보기 버튼 활성화
+  moreBtn.style.display = 'block';
 };
 
 init();
+
+//---HEADER IMG SLIDE---
+//이미지슬라이드 변수
+const imgSlideWrap = document.querySelector('#imgslide_wrap');
+const loadingTitle = document.querySelector('#loading_title');
+const slideBtns = document.querySelector('#button_wrap');
+const slidePlayBtn = document.querySelector('#play_btn');
+const slideInfoBtn = document.querySelector('#info_btn');
+
+//이미지슬라이드 로직: setTimeOut 3초 뒤 이미지 전환
+//랜덤 이미지 생성
+const makeRandomData = async function () {
+  //현재 상영작 데이터 fetch
+  let nowPlayingUrl =
+    'https://api.themoviedb.org/3/movie/now_playing?language=ko-KR&page=1';
+  const data = await fetchMovies(nowPlayingUrl);
+
+  //랜덤 데이터 이미지주소 반환
+  let randomData = data[Math.floor(Math.random() * data.length)];
+  return randomData;
+};
+
+//슬라이드 버튼 클릭 이벤트 : 아직 준비가 되지 않았다는 알람창 띄우기
+const alertNotYet = function () {
+  alert('아직 영화가 준비되지 않았습니다!');
+};
+
+slidePlayBtn.addEventListener('click', alertNotYet);
+slideInfoBtn.addEventListener('click', alertNotYet);
+
+//로딩 타이틀
+setTimeout(() => {
+  loadingTitle.style.transition = 'opacity 0.3s';
+  loadingTitle.style.opacity = '0';
+}, 3000);
+
+//3초마다 이미지 바뀜
+setInterval(async function () {
+  //랜덤 데이터 - 제목+이미지 불러오기
+  let randomData = await makeRandomData();
+
+  let randomImg = randomData.backdrop_path;
+  let randomTitle = randomData.title;
+
+  //텍스트 요소 생성
+  let randomImgTitle = document.querySelector('.random_title');
+  if (!randomImgTitle) {
+    randomImgTitle = document.createElement('h1');
+    randomImgTitle.setAttribute('class', 'random_title');
+    imgSlideWrap.appendChild(randomImgTitle);
+  }
+  randomImgTitle.innerText = randomTitle;
+
+  //랜덤 이미지 유효하면 bg-img로 넣기 / 없으면 로딩타이틀 넣기
+  const newImgUrl = randomImg
+    ? `https://image.tmdb.org/t/p/w1280${randomImg}`
+    : loadingTitle;
+
+  //new Image() 생성자로 새로운 이미지 미리 로드하기
+  const imgLoader = new Image();
+  imgLoader.src = newImgUrl;
+
+  imgLoader.onload = function () {
+    // 로드가 완료되면 배경 이미지 업데이트 및 전환
+    imgSlideWrap.style.transition = 'opacity 0.3s';
+    imgSlideWrap.style.opacity = '0';
+    randomImgTitle.style.transition = 'opacity 0.3s';
+    randomImgTitle.style.opacity = '0';
+  };
+  setTimeout(function () {
+    imgSlideWrap.style.backgroundImage = `url(${newImgUrl})`;
+    imgSlideWrap.style.opacity = '1';
+    randomImgTitle.style.opacity = '1';
+    //버튼도 등장!
+    slideBtns.style.transition = 'opacity 0.3s';
+    slideBtns.style.opacity = '1';
+  }, 300);
+}, 4300);
+
+// //실패!
+// setInterval(async function () {
+//   imgSlideWrap.style.opacity = '0';
+//   imgSlideWrap.style.transition = 'opacity 0.3s';
+
+//   let randomImg = await makeRandomImg();
+
+//   imgSlideWrap.style.backgroundImage = https://image.tmdb.org/t/p/w1200${randomImg};
+//   setTimeout(async function () {
+//     imgSlideWrap.style.opacity = '1';
+//   }, 3000);
+// }, 3000);
 
 //---HOME + NAVI---
 //---HOME---
@@ -111,6 +205,11 @@ naviLis.forEach(async function (naviLi) {
     //기존 카드 제거 후 해당 데이터로 다시 렌더링
     movieCardWrap.innerHTML = '';
     renderMovie(naviData);
+
+    //더보기 버튼 활성화
+    moreBtn.style.display = 'block';
+    //메인화면 상단으로 이동
+    window.scrollTo({ top: headerHeight, behavior: 'smooth' });
   });
 });
 
@@ -129,7 +228,7 @@ const renderMovie = function (data) {
 
     // 별점 계산
     const count = Math.floor(rate / 2) + (rate % 2 !== 0 ? 1 : 0);
-    const star = '⭐️'.repeat(count);
+    const star = '⭑'.repeat(count);
 
     // 영화 카드 생성
     const movieCard = document.createElement('li');
@@ -146,8 +245,6 @@ const renderMovie = function (data) {
     // 영화 카드에 내용 넣기
     movieCard.innerHTML = `
       <img src='https://image.tmdb.org/t/p/w500${posterImg}' alt='${title} image'>
-      <h3>${title}</h3>
-      <p>${star}</p>
     `;
 
     movieCardWrap.appendChild(movieCard);
@@ -159,6 +256,8 @@ const renderMovie = function (data) {
     });
   });
 };
+
+('https://image.tmdb.org/t/p/w500${posterImg}');
 
 //---SEARCH---
 //검색창 이벤트 : 검색창에 영화 타이틀을 검색하면 해당 카드만 보이도록 정렬
@@ -202,8 +301,13 @@ searchBtn.addEventListener('click', async function (event) {
     alert('검색어를 입력해주세요!');
     return;
   }
+  //해당 데이터 렌더링
+  await filterSearch(searchValue);
 
-  return await filterSearch(searchValue);
+  //검색창 비우기
+  searchInput.value = '';
+  //메인화면 상단으로 이동
+  window.scrollTo({ top: headerHeight, behavior: 'smooth' });
 });
 
 //enter키 누를시 해당 영화 필터링
@@ -217,7 +321,13 @@ searchInput.addEventListener('keypress', async function (event) {
       return;
     }
 
-    return await filterSearch(searchValue);
+    //해당 데이터 렌더링
+    await filterSearch(searchValue);
+
+    //검색창 비우기
+    searchInput.value = '';
+    //메인화면 상단으로 이동
+    window.scrollTo({ top: headerHeight, behavior: 'smooth' });
   }
 });
 
