@@ -36,7 +36,9 @@
           />
           <button type="button" id="searchBtn" class="header_btn">검색</button>
         </form>
-        <button type="button" id="bookmark" class="header_btn">북마크</button>
+        <button type="button" id="bookmark_btn" class="header_btn">
+          북마크
+        </button>
       </div>
       <!-- ---NAVI LIST--- -->
       <div id="nav_wrap">
@@ -62,11 +64,15 @@
         <div id="modal"></div>
         <div class="modal_text_wrap">
           <button type="button" id="close_btn" class="modal_btn"></button>
-          <h3 class="modal_title"></h3>
-          <p class="modal_info"></p>
-          <p class="modal_day"></p>
-          <p class="modal_star"></p>
-          <button type="button" id="bookmark_btn" class="modal_btn"></button>
+          <h3 class="modal_title modal_detail"></h3>
+          <p class="modal_info modal_detail"></p>
+          <p class="modal_day modal_detail"></p>
+          <p class="modal_star modal_detail"></p>
+          <button
+            type="button"
+            id="add_bookmark_btn"
+            class="modal_btn"
+          ></button>
         </div>
       </div>
     </main>

@@ -2,7 +2,7 @@
 
 /* font */
 /* pretendard */
-@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
 
 /* reset */
 * {
@@ -341,7 +341,7 @@ main {
       }
     }
 
-    #bookmark_btn {
+    #add_bookmark_btn {
       top: 50px;
       right: 80px;
       background-image: url(./images/bookmark_white.png);
