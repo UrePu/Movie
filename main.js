@@ -372,34 +372,6 @@ const closeModal = function (movieCard) {
 //영화더보기 이벤트 : 더보기 버튼 클릭하면 페이지 1장씩 추가
 //각 카테고리 안에서 개별적으로 적용!
 
-//실패!
-// naviLis.forEach((naviLi) => {
-//   const pageNums = {};
-//   const categoryId = naviLi.id;
-
-//   //pageNums 초기화
-//   if (!pageNums[categoryId]) {
-//     pageNums[categoryId] = 1;
-//   }
-//   //카테고리별 페이지 번호 증가
-//   pageNums[categoryId]++;
-
-//   //페이지 추가시 데이터 렌더링 함수
-//   const addPage = async function () {
-//     //변경된 숫자를 url에 적용
-//     let moreUrl = `https://api.themoviedb.org/3/movie/${categoryId}?language=ko-KR&page=${pageNums[categoryId]}`;
-//     console.log(pageNums);
-//     const moreData = await fetchMovies(moreUrl);
-
-//     //카드 20개씩 추가
-//     renderMovie(moreData);
-//   };
-
-//   //더보기 변수
-//   const moreBtn = document.querySelector('#more_btn');
-//   moreBtn.addEventListener('click', addPage);
-// });
-
 async function addPage(activeLi, pageNum) {
   console.log(activeLi);
   console.log(pageNum);
@@ -416,3 +388,12 @@ moreBtn.addEventListener('click', () => {
   pageNum++;
   addPage(activeLi, pageNum);
 });
+
+//---BOOKMARK---
+//북마크 이벤트 : 하트로 추가 / 북마크 버튼으로 목록 확인 / 북마크 페이지에서 삭제 가능
+//모달창 : 하트를 클릭하면 북마크에 추가
+//서치바 : 북마크 버튼을 클릭하면 북마크에 추가된 리스트 볼 수 있음
+//북마크 페이지 : 삭제 기능 구현
+
+//북마크 변수
+const bookmarkBtn = document.querySelector('#bookmark');
